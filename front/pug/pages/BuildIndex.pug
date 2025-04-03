@@ -1,0 +1,456 @@
+button.menu-btn menu
+.menu-test
+    button.dark-btn dark
+    button.lng-btn en
+    button.auth-btn auth
+    button.btn-predict predict
+    button.btn-thenks thanks
+    button.btn-lastPred last predict
+    button.btn-after after 1 game
+.fav-page#goals-or-zeros
+    .promo.promoPos
+        .wrapp
+            //mob
+            .promo__title
+                picture.uk
+                    source(media="(max-width: 600px)" srcset="img/promo/titleText-mob.png")
+                    img(src="img/promo/titleText-tab.png" alt="text")
+                picture.en
+                    source(media="(max-width: 600px)" srcset="img/promo/titleText-mob-en.png")
+                    img(src="img/promo/titleText-tab-en.png" alt="text")
+            .promo__match
+                .promo__team
+                    .team.team1.animRight
+                        .team-man
+                            picture
+                                source(media="(max-width: 600px)" srcset="img/teams/man-sh-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/teams/man-sh-tab.png")
+                                img(src="img/teams/man-sh-desk.png" alt="footballer")
+                        .team-text
+                            picture.uk
+                                source(media="(max-width: 600px)" srcset="img/teams/text-sh-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/teams/text-sh-tab.png")
+                                img(src="img/teams/text-sh-desk.png" alt="text")
+                            picture.en
+                                source(media="(max-width: 600px)" srcset="img/teams/text-sh-mob-en.png")
+                                source(media="(max-width: 1050px)" srcset="img/teams/text-sh-tab-en.png")
+                                img(src="img/teams/text-sh-desk-en.png" alt="text")
+                .promo__match-title
+                    picture.uk
+                        img(src="img/promo/titleText-desk.png" alt="text")
+                    picture.en
+                        img(src="img/promo/titleText-desk-en.png" alt="text")
+                .promo__match-circle
+                    picture
+                        source(media="(max-width: 600px)" srcset="img/predict/circle-mob.png")
+                        img(src="img/predict/circle-tab.png" alt="circle")
+                .promo__team
+                    .team.team2
+                        .team-man
+                            picture
+                                source(media="(max-width: 600px)" srcset="img/teams/man-dy-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/teams/man-dy-tab.png")
+                                img(src="img/teams/man-dy-desk.png" alt="footballer")
+                        .team-text
+                            picture.uk
+                                source(media="(max-width: 600px)" srcset="img/teams/text-dy-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/teams/text-dy-tab.png")
+                                img(src="img/teams/text-dy-desk.png" alt="text")
+                            picture.en
+                                source(media="(max-width: 600px)" srcset="img/teams/text-dy-mob-en.png")
+                                source(media="(max-width: 1050px)" srcset="img/teams/text-dy-tab-en.png")
+                                img(src="img/teams/text-dy-desk-en.png" alt="text")
+            .promo__prize
+                p.promo__prize-title(data-translate="prizeFond") #[span на кону] призовий фонд
+                .promo__prize-money
+                    picture
+                        source(media="(max-width: 600px)" srcset="img/promo/prize-mob.png")
+                        source(media="(max-width: 1050px)" srcset="img/promo/prize-tab.png")
+                        img(src="img/promo/prize-desk.png" alt="prize")
+                a(href="/login/" role="button" data-translate="loginBtn").promo__prize-btn.btn.unauth-msg Авторизуйся
+                .promo__prize-btn.toPredict.took-part.hide.btn(role="button" data-translate="playBtn") Зробити прогноз
+                .promo__prize-bonusTxt(data-translate="prizeBonus") #[span + додатковий бонус] <br> "страховка ставки"
+                .promo__prize-bonusImg
+                    picture.uk
+                        source(media="(max-width: 1050px)" srcset="img/promo/bonus-tab.png")
+                        img(src="img/promo/bonus-desk.png" alt="prize")
+                    picture.en
+                        source(media="(max-width: 1050px)" srcset="img/promo/bonus-tab-en.png")
+                        img(src="img/promo/bonus-desk-en.png" alt="prize")
+                p.promo__prize-conditions(data-translate="prizeDates") З 22 по 26 квітня 2025 року роби прогноз на точний рахунок матчу «Шахтар» — «Динамо Київ», прогнозуй перший гол, роби ставки від 200 ₴ та розділи призовий фонд.
+    .gide
+        .wrapp
+            .gide__title
+                picture.uk
+                    source(media="(max-width: 600px)" srcset="img/gide/gideTitle-mob.png")
+                    source(media="(max-width: 1050px)" srcset="img/gide/gideTitle-tab.png")
+                    img(src="img/gide/gideTitle-desk.png" alt="text")
+                picture.en
+                    source(media="(max-width: 600px)" srcset="img/gide/gideTitle-mob-en.png")
+                    source(media="(max-width: 1050px)" srcset="img/gide/gideTitle-tab-en.png")
+                    img(src="img/gide/gideTitle-desk-en.png" alt="text")
+            .gide__list
+                .gide__list-item
+                    .gide__list-card.card1.animCard
+                        .gide__list-bg
+                            picture
+                                source(media="(max-width: 600px)" srcset="img/gide/gideCard1-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideCard1-tab.png")
+                                img(src="img/gide/gideCard1-desk.png" alt="card")
+                        .gide__list-txt
+                            picture.uk
+                                source(media="(max-width: 600px)" srcset="img/gide/gideTxt1-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideTxt1-tab.png")
+                                img(src="img/gide/gideTxt1-desk.png" alt="text")
+                            picture.en
+                                source(media="(max-width: 600px)" srcset="img/gide/gideTxt1-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideTxt1-tab-en.png")
+                                img(src="img/gide/gideTxt1-desk-en.png" alt="text")
+                    .gide__list-text(data-translate="gideText1") Обери точний рахунок та команду. яка забʼє першою
+                    .gide__list-btn.btn(data-translate="MoreInfo") Детальніше
+                .gide__list-item
+                    .gide__list-card.card.card2.animCard
+                        .gide__list-bg
+                            picture
+                                source(media="(max-width: 600px)" srcset="img/gide/gideCard2-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideCard2-tab.png")
+                                img(src="img/gide/gideCard2-desk.png" alt="card")
+                        .gide__list-txt
+                            picture.uk
+                                source(media="(max-width: 600px)" srcset="img/gide/gideTxt2-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideTxt2-tab.png")
+                                img(src="img/gide/gideTxt2-desk.png" alt="text")
+                            picture.en
+                                source(media="(max-width: 600px)" srcset="img/gide/gideTxt2-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideTxt2-tab-en.png")
+                                img(src="img/gide/gideTxt2-desk-en.png" alt="text")
+                    .gide__list-text(data-translate="gideText2") Натисни кнопку Зробити прогноз
+                .gide__list-item
+                    .gide__list-card.card.card3.animCard
+                        .gide__list-bg
+                            picture
+                                source(media="(max-width: 600px)" srcset="img/gide/gideCard3-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideCard3-tab.png")
+                                img(src="img/gide/gideCard3-desk.png" alt="card")
+                        .gide__list-txt
+                            picture.uk
+                                source(media="(max-width: 600px)" srcset="img/gide/gideTxt3-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideTxt3-tab.png")
+                                img(src="img/gide/gideTxt3-desk.png" alt="text")
+                            picture.en
+                                source(media="(max-width: 600px)" srcset="img/gide/gideTxt3-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/gide/gideTxt3-tab-en.png")
+                                img(src="img/gide/gideTxt3-desk-en.png" alt="text")
+                    .gide__list-text(data-translate="gideText3") Зроби ставку
+    .predict.predictPos#predict
+        .wrapp
+            .predict__title
+                .predict__title-img
+                    picture.uk
+                        source(media="(max-width: 600px)" srcset="img/predict/predictTitle-mob.png")
+                        source(media="(max-width: 1050px)" srcset="img/predict/predictTitle-tab.png")
+                        img(src="img/predict/predictTitle-desk.png" alt="predict")
+                    picture.en
+                        source(media="(max-width: 600px)" srcset="img/predict/predictTitle-mob-en.png")
+                        source(media="(max-width: 1050px)" srcset="img/predict/predictTitle-tab-en.png")
+                        img(src="img/predict/predictTitle-desk-en.png" alt="predict")
+            .predict__tabs
+                .predict__tabs-global
+                    .predict__tabs-score.active(data-translate="predictScore") Прогноз на рахунок
+                    .predict__tabs-goal(data-translate="predictGoal") Прогноз на перший гол
+                .predict__tabs-bottom
+                    .predict__tabs-txt(data-translate="predictChoose") Прогнозуй фінальний рахунок матчу <br> 26.04 Шахтар — Динамо Київ
+                    .predict__tabs-txt.predict__tabs-txt-2.hide(data-translate="predictChoose2") Прогнозуй перший гол та фінальний рахунок матчу
+
+            // score-1
+            .predict__container.score-1.active(data-match-number="1")
+                .predict__container-teams
+                    .predict__team
+                        .team.team1.scoreTeam.animRight
+                            .team-man
+                                picture
+                                    source(media="(max-width: 600px)" srcset="img/teams/man-sh-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/man-sh-tab.png")
+                                    img(src="img/teams/man-sh-desk.png" alt="footballer")
+                            .team-text
+                                picture.uk
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-sh-tab.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-sh-tab.png")
+                                    img(src="img/teams/text-sh-desk.png" alt="text")
+                                picture.en
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-sh-mob-en.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-sh-tab-en.png")
+                                    img(src="img/teams/text-sh-desk-en.png" alt="text")
+                        .predict__team-control(data-team="team1")
+                            .predict__team-decrease.team1-minus(role="button")
+                            .predict__team-number 0
+                            .predict__team-increase.team1-plus(role="button")
+                    .predict__circle
+                        picture
+                            source(media="(max-width: 600px)" srcset="img/predict/circle-mob.png")
+                            source(media="(max-width: 1050px)" srcset="img/predict/circle-tab.png")
+                            img(src="img/predict/circle-desk.png" alt="circle")
+                    .predict__team
+                        .team.team2.scoreTeam
+                            .team-man
+                                picture
+                                    source(media="(max-width: 600px)" srcset="img/teams/man-dy-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/man-dy-tab.png")
+                                    img(src="img/teams/man-dy-desk.png" alt="footballer")
+                            .team-text
+                                picture.uk
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-dy-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-dy-tab.png")
+                                    img(src="img/teams/text-dy-desk.png" alt="text")
+                                picture.en
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-dy-mob-en.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-dy-tab-en.png")
+                                    img(src="img/teams/text-dy-desk-en.png" alt="text")
+                        .predict__team-control(data-team="team2")
+                            .predict__team-decrease.team1-minus(role="button")
+                            .predict__team-number 0
+                            .predict__team-increase.team1-plus(role="button")
+            //goal-1
+            .predict__container.goal-1.goalCont(data-match-number="1")
+                .predict__container-top(data-translate="betInsurance") Oтримай додатковий бонус <br> #[span «Страховки ставки» до 500 ₴]
+                .predict__container-wrap
+                    .predict__container-team
+                        .predict__team.team.team1.goalTeam
+                            .team-man
+                                picture
+                                    source(media="(max-width: 600px)" srcset="img/teams/man-sh-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/man-sh-tab.png")
+                                    img(src="img/teams/man-sh-desk.png" alt="footballer")
+                            .team-text
+                                picture.uk
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-sh-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-sh-tab.png")
+                                    img(src="img/teams/text-sh-desk.png" alt="text")
+                                picture.en
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-sh-mob-en.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-sh-tab-en.png")
+                                    img(src="img/teams/text-sh-desk-en.png" alt="text")
+                    .predict__zero
+                        .predict__zero-img
+                            picture
+                                source(media="(max-width: 600px)" srcset="img/predict/zero-mob.png")
+                                source(media="(max-width: 1050px)" srcset="img/predict/zero-tab.png")
+                                img(src="img/predict/zero-desk.png", alt="zero")
+                    .predict__container-team
+                        .predict__team.team.team2.goalTeam
+                            .team-man
+                                picture
+                                    source(media="(max-width: 600px)" srcset="img/teams/man-dy-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/man-dy-tab.png")
+                                    img(src="img/teams/man-dy-desk.png" alt="footballer")
+                            .team-text
+                                picture.uk
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-dy-mob.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-dy-tab.png")
+                                    img(src="img/teams/text-dy-desk.png" alt="text")
+                                picture.en
+                                    source(media="(max-width: 600px)" srcset="img/teams/text-dy-mob-en.png")
+                                    source(media="(max-width: 1050px)" srcset="img/teams/text-dy-tab-en.png")
+                                    img(src="img/teams/text-dy-desk-en.png" alt="text")
+                .predict__container-calculations
+                    .predict__radio
+                        .predict__radio-item
+                            input(type="radio", name="сhoice", value="sh", id="radio1")
+                            label(for="radio1")
+                            span(data-translate="choose") Обрати
+                        .predict__radio-item
+                            input(type="radio", name="сhoice", value="draw", id="radio2")
+                            label(for="radio2")
+                            span(data-translate="choose") Обрати
+                        .predict__radio-item
+                            input(type="radio", name="сhoice", value="dy", id="radio3")
+                            label(for="radio3")
+                            span(data-translate="choose") Обрати
+            .predict__container-calculations.topForecast
+                .predict__info #[span(data-translate="popularPredict") Найпопулярніші прогнози]
+                .predict__forecasts
+                    .predict__forecasts-item #[span 20%] 0-2
+                    .predict__forecasts-item #[span 20%] 0-2
+                    .predict__forecasts-item #[span 20%] 0-2
+            a(href="/login/" role="button" data-translate="loginBtn").predict__btn.btn.unauth-msg.hide Авторизуйся
+            .predict__btn.btn.took-part.predict-btn(role="button" data-translate="playBtn") Зробити прогноз
+            .predict__last
+                .predict__last-title
+                    .predict__last-img
+                        img(src="img/predict/clock.svg" alt="clock")
+                    .predict__last-txt(data-translate="lastPredict") Твій останній прогноз
+                .predict__last-info
+                    .predict__last-score
+                        .predict__last-team.team1(data-translate="shakhtar") Шахтар
+                        .predict__last-counter
+                            span.scoreTeam1 0
+                            .predict__last-vs
+                                img(src="img/vs.png" alt="vs")
+                            span.scoreTeam2 0
+                        .predict__last-team.team2(data-translate="dynamo") Динамо
+                    .predict__last-goal.hide
+                        .predict__last-text(data-translate="firstGoal") Перший гол:
+                        .predict__last-country(data-translate="shakhtar") Шахтар
+                    .predict__last-result.confirmed(data-translate="confirmed") Підтверджений
+                    .predict__last-result.unconfirmed.active(data-translate="unconfirmed") Не підтверджений
+    .table.tablePos
+        .wrapp
+            .table__title
+                picture.uk
+                    source(media="(max-width: 600px)" srcset="img/table/table-title-mob.png")
+                    source(media="(max-width: 1050px)" srcset="img/table/table-title-tab.png")
+                    img(src="img/table/table-title-desk.png" alt="Table")
+                picture.en
+                    source(media="(max-width: 600px)" srcset="img/table/table-title-mob-en.png")
+                    source(media="(max-width: 1050px)" srcset="img/table/table-title-tab-en.png")
+                    img(src="img/table/table-title-desk-en.png" alt="Table")
+            .table__wrap
+                .table__head
+                    .table__head-item(data-translate="tableId") ID Учасника
+                    .table__head-item(data-translate="tablePredict") Прогноз
+                    .table__head-item(data-translate="tablePrize") Грошова винагорода
+                    .table__head-item(data-translate="tableBonus") Додатковий бонус
+                //1
+                .table__body.table1.active
+                    .table__body-scroll#results-table
+                        .table__row
+                            .table__row-item 123456789
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 100300268
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row.you
+                            .table__row-item 0000067
+                            .table__row-you(data-translate="tableYou") You
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                        .table__row
+                            .table__row-item 0000067
+                            .table__row-item
+                                span **
+                                img(src="img/vs.png" alt="vs")
+                                span **
+                            .table__row-item 0000067
+                            .table__row-item 0000067
+                    .table__body-other#results-table-other
+            a(href="/sports/event/soccer/41846168/" role="button" data-translate="makeBetBtn" ).popups__item-btn.btn.took-part Зробити ставку
+            a(href="/login/" role="button" data-translate="loginBtn").popups__item-btn.btn.unauth-msg.hide Авторизуйся
+            .table__bottom(data-translate="tableBottom")
+                p * Точний приз (Бонус) у вигляді визначеної кількості електронних грошових замінників та додаткового бонусу буде відомий після закінчення матчу та доданий в таблицю наступного робочого дня. Призовий фонд 500 000 ₴ буде розподілено між учасниками, які вказали точний рахунок виключно основного часу матчу та зробили підтверджувальну ставку, умови якої прописані в Офіційних правилах участі в Акції «Голи чи нулі?» в п.9.2 -  9.4.
+    .drop
+        details.dropdown
+            summary(data-translate="rulesTitle") Офіційні правила акції «Голи чи нулі?»
+            .drop-txt
+                .drop-txt-list(data-translate="rulesTxt")
+                    p #[span Авторизуйся] на акційній сторінці, натиснувши кнопку «Авторизуйся», або зареєструйся як користувач. Обери точний рахунок матчів та команду, яка забʼє першою протягом проведення Акції.
+                    p #[span Після введення] точного рахунку основного часу матчу та вибору команди, натискай кнопку «Зробити прогноз». В акції враховуватиметься лише останній прогноз, зроблений Учасником до вказаного часу кожного окремого матчу.
+                    p #[span Роби ставки від 200 ₴] на матчі, на кожен окремий матч в Акції. Враховуються виключно розраховані ставки типу «Ординар», з мінімальним коефіцієнтом – 2.0.
+                    p #[span Ставки з Бонусного рахунку], з ознакою «Cash Out», «Повернення ставки», ставки із застосованим бонусом «Страховка ставки», ставки з розділу «Cybersport (Pinnacle)» та «Fantasy football» - не враховуються.
+
+    .details(data-translate="bottomInfo")
+        p *Загальний призовий фонд акції «Голи чи нулі?» складає 500 000 електронних грошових замінників та додаткових бонусів у вигляді «Страховка ставки» до 500 ₴. Деталі на сайті www.favbet.ua. Період дії акції – з 22.04.2025 по 26.04.2025 року
+        p **Додатковий бонус у вигляді «Страховки ставки» до 500 ₴ нараховується виключно у випадку вірно вказаної команди, яка заб'є першою, та здійснення точного прогнозу на фінальний рахунок матчу.
+    .popups._opacity
+        .popups__item.gidePopup
+            .popups__item-close
+            .popups__item-body
+                .popups__item-txt(data-translate="prizeDatails")
+                    p #[span Авторизуйся] на акційній сторінці, натиснувши кнопку «Авторизуйся», або зареєструйся як користувач. Обери точний рахунок матчів та команду, яка забʼє першою протягом проведення Акції.
+                    p #[span Після введення] точного рахунку основного часу матчу та вибору команди, натискай кнопку «Зробити прогноз». В акції враховуватиметься лише останній прогноз, зроблений Учасником до вказаного часу кожного окремого матчу.
+                    p #[span Роби ставки від 200 ₴] на матчі, на кожен окремий матч в Акції. Враховуються виключно розраховані ставки типу «Ординар», з мінімальним коефіцієнтом – 2.0.
+                    p #[span Ставки з Бонусного рахунку], з ознакою «Cash Out», «Повернення ставки», ставки із застосованим бонусом «Страховка ставки», ставки з розділу «Cybersport (Pinnacle)» та «Fantasy football» - не враховуються.
+        .popups__item._confirmPopup
+            .popups__item-close.closeConf
+            .popups__item-info
+                .popups__item-top
+                    picture
+                        source(media="(max-width: 600px)" srcset="img/popups/popup-check-mob.png")
+                        img(src="img/popups/popup-check-desk.png" alt="card")
+                .popups__item-tnx
+                    .popups__item-tnx-img
+                        picture.uk
+                            source(media="(max-width: 600px)" srcset="img/popups/popup-thanks-mob.png")
+                            img(src="img/popups/popup-thanks-desk.png" alt="card")
+                        picture.en
+                            source(media="(max-width: 600px)" srcset="img/popups/popup-thanks-mob-en.png")
+                            img(src="img/popups/popup-thanks-desk-en.png" alt="card")
+                .popups__item-center(data-translate="popupPredict") Твій прогноз #[span прийнятий]
+                a(href="/sports/event/soccer/41846168/" role="button" data-translate="makeBetBtn" target="_blank").popups__item-btn.btn Зробити ставку
