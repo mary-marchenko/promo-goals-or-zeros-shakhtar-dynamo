@@ -649,14 +649,15 @@ body
           display: none
         &:nth-child(1), &:nth-child(2)
           opacity: 0
-    &.goal-2._lock
-      .predict__radio-item
-        display: flex
-        pointer-events: none
-        span
-          display: none
-        &:nth-child(2), &:nth-child(3)
-          opacity: 0
+        &:nth-child(3)
+          input[type="radio"]
+            &:not(:checked) + label
+              background: url("../img/predict/radiobutton-active.png") no-repeat 50% 50% / cover
+          label
+            @media screen and (min-width: 601px)
+              height: 34px
+            @media screen and (max-width: 600px)
+              height: 29px
     &.goalCont
       margin-top: 10px
       .predict
@@ -754,7 +755,7 @@ body
       flex-direction: column
     &-txt
       margin: 19px 0 15px
-      font-family: $font-montserrat-semiBold
+      font-family: $font-montserrat-bold
       font-size: 16px
       text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.25)
       color: $white
@@ -762,8 +763,11 @@ body
       justify-content: center
       text-align: center
       &-2
+        font-family: $font-montserrat-bold
+        font-size: 16px
+        color: $white
+        text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.25)
         margin-top: 30px
-        text-transform: uppercase
       &:after
         z-index: 1
         content: ""
@@ -891,26 +895,6 @@ body
       align-items: center
       margin-top: -100px
       z-index: 3
-    &.unactive
-      .predict
-        &__team
-          &-decrease,
-          &-increase
-            display: none
-        &__btn
-          &.btn-join,
-          &.took-part
-            background: url('../img/btn-bg-unactive.png') no-repeat 50% 50%/cover
-            text-shadow: 0px 3px 0px #42464a
-            pointer-events: none
-        &__radio
-          &-item
-            opacity: 0
-            &.radioWinner
-              opacity: 1
-              input[type="radio"]
-                &:not(:checked) + label
-                  background: url("../img/predict/radiobutton-active.png") no-repeat 50% 50% / cover
   &__info
     margin-bottom: 16px
     margin-top: 22px
