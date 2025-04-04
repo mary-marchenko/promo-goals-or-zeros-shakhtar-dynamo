@@ -1,5 +1,6 @@
 (function () {
-    const apiURL = 'https://fav-prom.com/api_goals_or_zeroes1',
+    // const apiURL = 'https://fav-prom.com/api_football_shakhtar',
+    const apiURL = 'https://fav-prom.com/api_goals_or_zeros',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
         youAreInBtns = document.querySelectorAll('.took-part'),
         mainPage = document.querySelector(".fav-page"),
@@ -67,8 +68,8 @@
     const cache = {};
     let predictData = [];
 
-    let translateState = true
-    let debug = false
+    let translateState = false
+    let debug = true
 
     let locale = sessionStorage.getItem("locale") ?? "uk"
     // let locale = "uk"
@@ -270,15 +271,22 @@
         // console.log(activeInput);
         // console.log(activeTab)
 
-        request('/bet', {
-            method: 'POST',
-            body: JSON.stringify(req)
-        })
-            .then(res => {
-                // console.log('Bet placed:', res);
-                InitPage();
+        if(!debug){
+            request('/bet', {
+                method: 'POST',
+                body: JSON.stringify(req)
             })
-            .catch(error => console.error('Error placing bet:', error));
+                .then(res => {
+                    console.log('Bet placed:', res);
+                    InitPage();
+                })
+                .catch(error => console.error('Error placing bet:', error));
+        }else{
+            console.log('debug is enable, your bet:', req);
+            InitPage()
+        }
+
+
     }
 
     function loadTranslations() {
@@ -365,7 +373,7 @@
             currentBet = new Bet(userId, matchNumber, team1Goals, team2Goals);
             currentBet.updateGoals(team1Goals, team2Goals);
         }
-        // console.log(currentBet);
+        console.log(currentBet);
     }
     function updateFirstGoal(matchNumber, firstGoal) {
         if (currentBet && currentBet.matchNumber === matchNumber) {
@@ -745,6 +753,7 @@
                 // console.log(this.querySelector("input").value)
 
                 updateFirstGoal(matchNumber, this.querySelector("input").value)
+                console.log(currentBet)
             });
         });
     });
