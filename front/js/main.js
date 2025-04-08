@@ -1,6 +1,6 @@
 (function () {
-    // const apiURL = 'https://fav-prom.com/api_football_shakhtar',
-    const apiURL = 'https://fav-prom.com/api_goals_or_zeros',
+    const apiURL = 'https://fav-prom.com/api_football_shakhtar',
+    // const apiURL = 'https://fav-prom.com/api_goals_or_zeros',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
         youAreInBtns = document.querySelectorAll('.took-part'),
         mainPage = document.querySelector(".fav-page"),
@@ -17,10 +17,10 @@
 
     const FIRST_MATCH_DATE = new Date('2025-04-26T21:15:00') // дата матчу - 30хв
     // const SECOND_MATCH_DATE = new Date('2025-03-23T21:15:00')
-    const currentDate = new Date()
+    const currentDate = new Date("2024-04-26T21:15:00")
 
     function lockMatchContainer(matchDate, matchNumber) {
-        if (new Date() > matchDate) {
+        if (currentDate > matchDate) {
             const containers = document.querySelectorAll(`.predict__container[data-match-number="${matchNumber}"]`);
 
             containers.forEach(container => {
@@ -89,13 +89,12 @@
     if (ukLeng) locale = 'uk';
     if (enLeng) locale = 'en';
 
-    const request = function (link, extraOptions) {
-        return fetch(apiURL + link, {
+    const request = function (link) {
+        return fetch (apiURL + link, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            ...(extraOptions || {})
         }).then(res => res.json())
     }
 
@@ -122,16 +121,16 @@
                 })
                 // console.log(betAvailable)
                 const lastTeam1 = document.querySelector(".predict__last-team.team1");
-                // const lastTeam2 = document.querySelector(".predict__last-team.team2");
+                const lastTeam2 = document.querySelector(".predict__last-team.team2");
                 const scoreTeam1 = document.querySelector(".scoreTeam1");
-                // const scoreTeam2 = document.querySelector(".scoreTeam2");
+                const scoreTeam2 = document.querySelector(".scoreTeam2");
                 const firstGoal = document.querySelector(".predict__last-country");
                 if(betAvailable){
                     lastPredict.classList.remove("hide")
                     const lastBet = getLastBet(data.bets, matchNumber);
                     scoreTeam1.textContent = lastBet.team1 === undefined ? "-" :`${lastBet.team1}`;
-                    // scoreTeam2.textContent = lastBet.team2 === undefined ? "-" :`${lastBet.team2}`;
-                    // console.log(lastBet)
+                    scoreTeam2.textContent = lastBet.team2 === undefined ? "-" :`${lastBet.team2}`;
+                    console.log(lastBet)
 
                     if (lastBet.betConfirmed) {
                         document.querySelectorAll(".predict__last-result.unconfirmed").forEach(item =>{
@@ -171,10 +170,10 @@
                     }
 
                     if(lastBet.firstGoal){
-                        if(lastBet.firstGoal === "sh"){
+                        if(lastBet.firstGoal === "shakhtar"){
                             firstGoal.setAttribute("data-translate", "shakhtar");
                         }
-                        if(lastBet.firstGoal === "dy"){
+                        if(lastBet.firstGoal === "dynamo"){
                             firstGoal.setAttribute("data-translate", "dynamo");
                         }
                         if(lastBet.firstGoal === "draw"){
@@ -182,7 +181,7 @@
                         }
 
                     }else{
-                        if(goal1.classList.contains("active") || goal2.classList.contains("active")){
+                        if(goal1.classList.contains("active")){
                             document.querySelector(".predict__last").classList.add("hide")
                         }
                     }
