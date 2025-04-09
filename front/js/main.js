@@ -107,7 +107,11 @@
                 reportError(err);
 
                 document.querySelector('.fav-page').style.display = 'none';
-                window.location.href = '/promos/promo/stub/';
+                if (window.location.href.startsWith("https://www.favbet.hr/")) {
+                    window.location.href = '/promocije/promocija/stub/';
+                } else {
+                    window.location.href = '/promos/promo/stub/';
+                }
 
                 return Promise.reject(err);
             });
