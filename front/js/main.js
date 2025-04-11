@@ -1,6 +1,5 @@
 (function () {
     const apiURL = 'https://fav-prom.com/api_football_shakhtar',
-    // const apiURL = 'https://fav-prom.com/api_goals_or_zeros',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
         youAreInBtns = document.querySelectorAll('.took-part'),
         mainPage = document.querySelector(".fav-page"),
@@ -15,27 +14,29 @@
     let matchNumber = 1
     let showTopForecast = false
 
-    const FIRST_MATCH_DATE = new Date('2025-04-26T21:15:00') // дата матчу - 30хв
-    // const SECOND_MATCH_DATE = new Date('2025-03-23T21:15:00')
-    const currentDate = new Date("2024-04-26T21:15:00")
+    const FIRST_MATCH_DATE = new Date('2026-03-20T21:15:00') // дата матчу - 30хв
+    const currentDate = new Date()
 
     function lockMatchContainer(matchDate, matchNumber) {
-        if (currentDate > matchDate) {
+        if (new Date() > matchDate) {
             const containers = document.querySelectorAll(`.predict__container[data-match-number="${matchNumber}"]`);
+            const tab = document.querySelector(`.predict__tabs-date.active[data-match-number="${matchNumber}"]`);
 
             containers.forEach(container => {
                 container.classList.add('_lock');
             });
+
+            if(tab){
+                placeBetBtn.classList.add("_lock")
+            }
         }
     }
 
     lockMatchContainer(FIRST_MATCH_DATE, 1); // Для першого матчу
-    // lockMatchContainer(SECOND_MATCH_DATE, 2); // Для другого матчу
 
     setInterval(() => {
         const currentDate = new Date(); // Оновити поточну дату
         lockMatchContainer(FIRST_MATCH_DATE, 1);
-        // lockMatchContainer(SECOND_MATCH_DATE, 2);
     }, 600000); // Оновлювати кожні 10 хв
 
     class Bet {
@@ -68,11 +69,10 @@
     const cache = {};
     let predictData = [];
 
-    let translateState = false
-    let debug = true
+    let translateState = true
+    let debug = false
 
-    let locale = sessionStorage.getItem("locale") ?? "uk"
-    // let locale = "uk"
+    let locale = "en"
 
     const ukLeng = document.querySelector('#ukLeng');
     const enLeng = document.querySelector('#enLeng');
@@ -81,8 +81,7 @@
     let i18nData = {};
 
     let userId;
-    userId = sessionStorage.getItem("userId") ?? null
-    // userId = 100300268;
+    userId = 100300268;
 
     let currentBet;
 
@@ -150,10 +149,9 @@
 
     function refreshBetInfo(userId) {
         const score1 = document.querySelector(".score-1")
-        // const score2 = document.querySelector(".score-2")
+        const score2 = document.querySelector(".score-2")
         const goal1 = document.querySelector(".goal-1")
-        // const goal2 = document.querySelector(".goal-2")
-        const matchNumber = 1
+        const goal2 = document.querySelector(".goal-2")
 
         // console.log(matchNumber)
 
@@ -175,7 +173,7 @@
                     const lastBet = getLastBet(data.bets, matchNumber);
                     scoreTeam1.textContent = lastBet.team1 === undefined ? "-" :`${lastBet.team1}`;
                     scoreTeam2.textContent = lastBet.team2 === undefined ? "-" :`${lastBet.team2}`;
-                    console.log(lastBet)
+                    // console.log(lastBet)
 
                     if (lastBet.betConfirmed) {
                         document.querySelectorAll(".predict__last-result.unconfirmed").forEach(item =>{
@@ -198,11 +196,6 @@
                         lastTeam2.setAttribute("data-translate", "dynamo");
                         translate();
                     }
-                    // if (lastBet.matchNumber === 2) {
-                    //     lastTeam2.setAttribute("data-translate", "ukraine");
-                    //     lastTeam1.setAttribute("data-translate", "belgium");
-                    //     translate();
-                    // }
 
                     if(score1.classList.contains("active")){
                         document.querySelector(".predict__last-score").classList.remove("hide")
@@ -226,7 +219,7 @@
                         }
 
                     }else{
-                        if(goal1.classList.contains("active")){
+                        if(goal1.classList.contains("active") || goal2.classList.contains("active")){
                             document.querySelector(".predict__last").classList.add("hide")
                         }
                     }
@@ -266,6 +259,7 @@
         if (!userId) {
             return;
         }
+        console.log(bet)
 
         document.querySelector(".predict__container.active")
             .querySelectorAll('.predict__team-increase, .predict__team-decrease')
@@ -308,6 +302,7 @@
 
         if (bet.goalsUpdated) {
             req.team1 = bet.team1;
+            req.team2 = bet.team2;
         }
 
 
@@ -315,22 +310,20 @@
         // console.log(activeInput);
         // console.log(activeTab)
 
-        if(!debug){
-            request('/bet', {
-                method: 'POST',
-                body: JSON.stringify(req)
+
+        sessionStorage.setItem("currentBet", JSON.stringify(req))
+
+        console.log(sessionStorage.getItem("currentBet"))
+
+        request('/bet', {
+            method: 'POST',
+            body: sessionStorage.getItem("currentBet")
+        })
+            .then(res => {
+                // console.log('Bet placed:', res);
+                InitPage();
             })
-                .then(res => {
-                    console.log('Bet placed:', res);
-                    InitPage();
-                })
-                .catch(error => console.error('Error placing bet:', error));
-        }else{
-            console.log('debug is enable, your bet:', req);
-            InitPage()
-        }
-
-
+            .catch(error => console.error('Error placing bet:', error));
     }
 
     function loadTranslations() {
@@ -373,6 +366,9 @@
     }
 
     function init() {
+        if(!currentBet){
+            currentBet = new Bet(userId, matchNumber)
+        }
         if (window.store) {
             var state = window.store.getState();
             userId = state.auth.isAuthorized && state.auth.id || '';
@@ -395,19 +391,13 @@
 
         }
         InitPage()
-
         placeBetBtn.addEventListener('click', (e) => {
+            console.log("click")
             e.preventDefault();
-            // console.log(currentBet)
-            if(currentBet){
-                placeBet(currentBet);
-            }
-            if(currentBet === undefined){
+            if(currentBet === undefined) {
                 currentBet = new Bet(userId, matchNumber)
-                placeBet(currentBet);
-                // console.log(currentBet)
             }
-
+            placeBet(currentBet);
         });
     }
     function updateScore(matchNumber, team1Goals, team2Goals) {
@@ -417,7 +407,7 @@
             currentBet = new Bet(userId, matchNumber, team1Goals, team2Goals);
             currentBet.updateGoals(team1Goals, team2Goals);
         }
-        console.log(currentBet);
+        // console.log(currentBet);
     }
     function updateFirstGoal(matchNumber, firstGoal) {
         if (currentBet && currentBet.matchNumber === matchNumber) {
@@ -460,8 +450,8 @@
                 let users = data.users
 
                 // console.log(users)
-                const isScoreTabActive = document.querySelector('.predict__tabs-score');
-                const isGoalTabActive = document.querySelector('.predict__tabs-goal');
+                const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
+                const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
 
                 if(users.length >= 50){
                     showTopForecast = true
@@ -530,8 +520,8 @@
         </div>
         
         ${user.winner === true  ?
-        `<div class="table__row-item" data-translate="prize">*****</div>` :
-        `<div class="table__row-item" data-translate="noWinners">*****</div>`
+            `<div class="table__row-item" data-translate="prize">*****</div>` :
+            `<div class="table__row-item" data-translate="noWinners">*****</div>`
         }
         
         ${user.bonusFirstGoal === true  ?
@@ -553,8 +543,8 @@
             }
         
             ${user.bonusFirstGoal === true  ?
-                    `<div class="table__row-item" data-translate="ss500">*****</div>` :
-                    `<div class="table__row-item" data-translate="noWinners">*****</div>`
+                `<div class="table__row-item" data-translate="ss500">*****</div>` :
+                `<div class="table__row-item" data-translate="noWinners">*****</div>`
             }
         `;
             const youBlock = document.createElement('div');
@@ -592,24 +582,22 @@
     animateCards();
 
     // predict tabs
-    const tabs = document.querySelectorAll('.predict__tabs-global > div');
+    const tabs = document.querySelectorAll('.predict__tabs-global > div, .predict__tabs-dates > div');
     const containers = document.querySelectorAll('.predict__container');
 
     function handleTabClick(event) {
         let matchDate;
-
-        const clickedTab = event.target.closest(".predict__tabs-goal") || event.target.closest(".predict__tabs-score");
-        // console.log(clickedTab)
-        const tabPair = clickedTab.closest('.predict__tabs-global');
-
         let currentMatch = 1
+
+        const clickedTab = event.target.closest(".predict__tabs-date") || event.target.closest(".predict__tabs-goal") || event.target.closest(".predict__tabs-score");
+        // console.log(clickedTab)
+        const tabPair = clickedTab.closest('.predict__tabs-global') || clickedTab.closest('.predict__tabs-dates');
 
         // console.log(clickedTab)
 
         if(currentMatch === 1){
             matchDate = FIRST_MATCH_DATE
         }
-
         if(currentDate > matchDate){
             placeBetBtn.classList.add("_lock")
         }else{
@@ -627,26 +615,26 @@
 
         clickedTab.classList.add('active');
         updateContainers();
-        refreshBetInfo(userId)
+        // refreshBetInfo(userId)
+        if(clickedTab.closest('.predict__tabs-score')){
+            updateTopForecasts(currentMatch)
+            currentBet = new Bet(userId, currentMatch)
+            matchNumber = 1
+            document.querySelectorAll(".predict__team-number").forEach((score, i) =>{
+                // console.log(matchDate, matchNumber)
+                if(currentDate > matchDate && i === 1 && matchNumber === 1){
+                    score.textContent = "0"
+                }
+                else if(currentDate > matchDate && i === 0 && matchNumber === 1){
+                    score.textContent = "0"
+                }
 
-        updateTopForecasts(currentMatch)
-        currentBet = new Bet(userId, currentMatch)
-        document.querySelectorAll(".predict__team-number").forEach((score, i) =>{
-            // console.log(matchDate, matchNumber)
-            if(currentDate > matchDate && i === 1){
-                score.textContent = "0"
-            }
-            else if(currentDate > matchDate && i === 0){
-                score.textContent = "0"
-            }
-            // else{
-            //     score.textContent = "0"
-            // }
+            })
+            document.querySelectorAll('input[type="radio"]:checked').forEach(button => {
+                button.checked = false;
+            });
 
-        })
-        document.querySelectorAll('input[type="radio"]:checked').forEach(button => {
-            button.checked = false;
-        });
+        }
         lockMatchContainer(FIRST_MATCH_DATE, 1); // Для першого матчу
     }
 
@@ -658,23 +646,14 @@
         const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
         const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
         // const isDate1Active = document.querySelector('.predict__tabs-date.date1.active');
+        // const isDate2Active = document.querySelector('.predict__tabs-date.date2.active');
 
         if (isScoreTabActive) {
             if(showTopForecast) topForecast.classList.remove("hide")
             document.querySelector('.predict__container.score-1').classList.add('active');
-            document.querySelector('.predict__tabs-txt-2').classList.add('hide');
-            document.querySelector('.predict__tabs-txt').classList.remove('hide');
-            document.querySelector('.topForecast').classList.remove('hide');
-            document.querySelector('.predict__last-goal').classList.add('hide');
-            document.querySelector('.predict__last-score').classList.remove('hide');
         } else if (isGoalTabActive) {
             if(showTopForecast) topForecast.classList.add("hide")
             document.querySelector('.predict__container.goal-1').classList.add('active');
-            document.querySelector('.predict__tabs-txt-2').classList.remove('hide');
-            document.querySelector('.predict__tabs-txt').classList.add('hide');
-            document.querySelector('.topForecast').classList.add('hide');
-            document.querySelector('.predict__last-goal').classList.remove('hide');
-            document.querySelector('.predict__last-score').classList.add('hide');
         }
     }
 
@@ -719,18 +698,18 @@
     });
 
     //table tabs
-    // document.querySelectorAll('.table__tabs-date').forEach(tab => {
-    //     tab.addEventListener('click', function() {
-    //         if (this.classList.contains('active')) {
-    //             return;
-    //         }
-    //         document.querySelectorAll('.table__tabs-date').forEach(tab => tab.classList.remove('active'));
-    //         this.classList.add('active');
-    //         currentTabTable = Number(document.querySelector(".table__tabs-date.active").getAttribute("data-match-number"))
-    //         renderUsers();
-    //     });
-    // });
-    
+    document.querySelectorAll('.table__tabs-date').forEach(tab => {
+        tab.addEventListener('click', function() {
+            if (this.classList.contains('active')) {
+                return;
+            }
+            document.querySelectorAll('.table__tabs-date').forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            currentTabTable = Number(document.querySelector(".table__tabs-date.active").getAttribute("data-match-number"))
+            renderUsers();
+        });
+    });
+
 
     //popups
 
@@ -797,73 +776,9 @@
                 // console.log(this.querySelector("input").value)
 
                 updateFirstGoal(matchNumber, this.querySelector("input").value)
-                console.log(currentBet)
             });
         });
     });
     loadTranslations()
         .then(init)
-
-    init()
-
-    // TEST
-    document.querySelector('.dark-btn').addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-    });
-
-    const lngBtn = document.querySelector(".lng-btn")
-
-    lngBtn.addEventListener("click", () => {
-        if (sessionStorage.getItem("locale")) {
-            sessionStorage.removeItem("locale");
-        } else {
-            sessionStorage.setItem("locale", "en");
-        }
-        window.location.reload();
-    });
-
-    const authBtn = document.querySelector(".auth-btn")
-
-    authBtn.addEventListener("click", () =>{
-        if(userId){
-            sessionStorage.removeItem("userId")
-        }else{
-            sessionStorage.setItem("userId", "18908465")
-        }
-        window.location.reload()
-    });
-
-    document.querySelectorAll('.btn-lastPred').forEach(button => {
-        button.addEventListener('click', function() {
-            document.querySelectorAll('.predict__last').forEach(element => {
-                element.classList.toggle('hide');
-            });
-        });
-    });
-
-    setPopups(document.querySelectorAll('.btn-thenks'), '_confirmPopup');
-
-    document.querySelectorAll('.btn-predict').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.unconfirmed').forEach(unconfirmed => {
-                unconfirmed.classList.toggle('active');
-            });
-
-            document.querySelectorAll('.confirmed').forEach(confirmed => {
-                confirmed.classList.toggle('active');
-            });
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelector(".menu-btn")?.addEventListener("click", () => {
-            document.querySelector(".menu-test")?.classList.toggle("hide");
-        });
-    });
-
-    document.querySelector(".btn-after")?.addEventListener("click", () => {
-        document.querySelector(".goal-1")?.classList.toggle("_lock")
-        document.querySelector(".score-1")?.classList.toggle("_lock")
-        console.log("lock table")
-    });
 })()
