@@ -642,12 +642,9 @@
 
     function updateContainers() {
         containers.forEach(container => container.classList.remove('active'));
-
+        refreshBetInfo(userId)
         const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
         const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
-        // const isDate1Active = document.querySelector('.predict__tabs-date.date1.active');
-        // const isDate2Active = document.querySelector('.predict__tabs-date.date2.active');
-
         if (isScoreTabActive) {
             if(showTopForecast) topForecast.classList.remove("hide")
             document.querySelector('.predict__container.score-1').classList.add('active');
