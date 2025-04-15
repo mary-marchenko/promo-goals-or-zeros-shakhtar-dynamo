@@ -20,15 +20,12 @@
     function lockMatchContainer(matchDate, matchNumber) {
         if (new Date() > matchDate) {
             const containers = document.querySelectorAll(`.predict__container[data-match-number="${matchNumber}"]`);
-            const tab = document.querySelector(`.predict__tabs-date.active[data-match-number="${matchNumber}"]`);
 
             containers.forEach(container => {
                 container.classList.add('_lock');
             });
 
-            if(tab){
-                placeBetBtn.classList.add("_lock")
-            }
+            placeBetBtn.classList.add("_lock")
         }
     }
 
@@ -838,8 +835,9 @@
     });
 
     document.querySelector(".btn-after")?.addEventListener("click", () => {
-        const TEST_MATCH_DATE = new Date('2022-03-20T21:15:00')
-        lockMatchContainer(TEST_MATCH_DATE, 1);
+        const FIRST_MATCH_DATE = new Date('2022-03-20T21:15:00')
+        lockMatchContainer(FIRST_MATCH_DATE, 1);
+        placeBetBtn.classList.add("_lock")
         console.log("lock table")
     });
 
