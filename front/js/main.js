@@ -860,5 +860,6 @@
     displayUser = function () {
         console.log('displayUser вимкнено для тесту');
     }
+    showTopForecast = true
 })()
 
