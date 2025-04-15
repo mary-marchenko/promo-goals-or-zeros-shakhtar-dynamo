@@ -83,6 +83,8 @@ body.dark
         background: linear-gradient(180deg, rgba(21, 22, 33, 0) 0%, #12131d 22%)
       @media screen and (max-width: 350px)
         background: linear-gradient(180deg, rgba(21, 22, 33, 0) 0%, #12131d 21%)
+      @media screen and (max-width: 330px)
+        top: -36px
     &__list
       &-item
         &:after
@@ -99,9 +101,7 @@ body.dark
     &:after
       background: linear-gradient(180deg, rgba(21, 22, 33, 0.00) 0%, #151621 30%)
       @media screen and (max-width: 1350px)
-        background: linear-gradient(180deg, rgba(21, 22, 33, 0.00) 0%, #151621 35%)
-      @media screen and (max-width: 1350px)
-        background: linear-gradient(180deg, rgba(21, 22, 33, 0.00) 0%, #151621 30%)
+        background: linear-gradient(180deg, rgba(21, 22, 33, 0.00) 0%, #151621 50%)
       @media screen and (max-width: 1050px)
         background: linear-gradient(180deg, rgba(21, 22, 33, 0.00) 0%, #151621 95%)
       @media screen and (max-width: 700px)
@@ -206,9 +206,17 @@ picture
       @media screen and (max-width: 600px)
         &-goal,
         &-score
-          font-size: 9.7px
+          font-size: 9px
+          line-height: 12px
         &-score
           padding-left: 20px
+          padding-right: 18px
+        &-goal
+          padding-left: 18px
+    &__container
+      &-top
+        @media screen and (max-width: 600px)
+          width: 256px
   .table
     &__title
       width: 459px
@@ -225,6 +233,14 @@ picture
       &-img
         .en
           width: 375px
+    &__item
+      &-body
+        width: 600px
+        @media screen and (max-width: 700px)
+          width: 307px
+        @media screen and (max-width: 360px)
+          width: 263px
+
     @media screen and (max-width: 1050px)
     &__item
       &-info
@@ -257,6 +273,11 @@ picture
               width: 270px
         &-center
           font-size: 18px
+  .drop
+    .dropdown
+      summary
+        @media screen and (max-width: 360px)
+          padding-right: 70px
 //end EN
 
 body
@@ -1044,7 +1065,7 @@ body
 .table
   position: relative
   width: 100%
-  background: url('../img/table/bgBack-4.png') no-repeat 50% 39%/cover
+  background: url('../img/table/bgBack-4.png') no-repeat 50% 68%/cover
   background-size: auto 1077px
   &:before
     z-index: 1
@@ -1059,7 +1080,7 @@ body
     z-index: 1
     content: ""
     position: absolute
-    bottom: -38px
+    bottom: -8px
     left: 0
     width: 100%
     height: 220px

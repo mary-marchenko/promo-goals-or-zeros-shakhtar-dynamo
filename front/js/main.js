@@ -14,7 +14,7 @@
     let matchNumber = 1
     let showTopForecast = false
 
-    const FIRST_MATCH_DATE = new Date('2026-03-20T21:15:00') // дата матчу - 30хв
+    const FIRST_MATCH_DATE = new Date('2025-04-27T17:30:00') // дата матчу - 30хв
     const currentDate = new Date()
 
     function lockMatchContainer(matchDate, matchNumber) {
