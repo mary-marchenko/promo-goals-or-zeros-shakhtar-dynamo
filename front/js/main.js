@@ -446,122 +446,122 @@
             console.error('Error fetching top forecasts:', error);
         });
     }
-    // function renderUsers() {
-    //     request(`/users/${currentTabTable}`)
-    //         .then(data => {
-    //
-    //             let users = data.users
-    //
-    //             // console.log(users)
-    //             const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
-    //             const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
-    //
-    //             if(users.length >= 50){
-    //                 showTopForecast = true
-    //             }
-    //             if(users.length < 50){
-    //                 showTopForecast = false
-    //             }
-    //
-    //             if (isScoreTabActive && showTopForecast) topForecast.classList.remove("hide")
-    //             if (isGoalTabActive) topForecast.classList.add("hide")
-    //
-    //
-    //             // console.log(typeof userId)
-    //
-    //             populateUsersTable(users, userId, currentTabTable)
-    //
-    //             // console.log(users)
-    //         });
-    //
-    // }
-    // function populateUsersTable(users, currentUserId, matchNumber) {
-    //     resultsTable.innerHTML = '';
-    //     resultsTableOther.innerHTML = '';
-    //
-    //     if (!users || !users.length) return;
-    //
-    //     // // Фільтруємо користувачів, які зробили ставку на вказаний матч
-    //     // const users = users.filter(user =>
-    //     //     user.bets.some(bet => bet.matchNumber === matchNumber)
-    //     // );
-    //
-    //     // if (!users.length) return;
-    //
-    //     // Знаходимо поточного користувача
-    //     const currentUser = users.find(user => user.userid === currentUserId);
-    //
-    //     // Виводимо всіх інших користувачів у resultsTable
-    //     users.forEach(user => {
-    //         if (user.userid !== currentUserId) {
-    //             displayUser(user, false, resultsTable, users, matchNumber);
-    //         }
-    //     });
-    //
-    //     // Виводимо поточного користувача в resultsTableOther
-    //     if (currentUser) {
-    //         displayUser(currentUser, true, resultsTableOther, users, matchNumber);
-    //     }
-    // }
-    // function displayUser(user, isCurrentUser, table, allUsers, matchNumber) {
-    //     let matchDate;
-    //
-    //     if (matchNumber === 1) {
-    //         matchDate = FIRST_MATCH_DATE;
-    //     }
-    //
-    //     const additionalUserRow = document.createElement('div');
-    //     additionalUserRow.classList.add('table__row');
-    //
-    //     additionalUserRow.innerHTML = `
-    //     <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
-    //     <div class="table__row-item">
-    //         ${currentDate >= matchDate ?
-    //         `<span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>` :
-    //         `<span>**</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>**</span>`
-    //     }
-    //     </div>
-    //
-    //     ${user.winner === true  ?
-    //         `<div class="table__row-item" data-translate="prize">*****</div>` :
-    //         `<div class="table__row-item" data-translate="noWinners">*****</div>`
-    //     }
-    //
-    //     ${user.bonusFirstGoal === true  ?
-    //         `<div class="table__row-item" data-translate="ss500">*****</div>` :
-    //         `<div class="table__row-item" data-translate="noWinners">*****</div>`
-    //     }
-    // `;
-    //
-    //     if (isCurrentUser) {
-    //         additionalUserRow.classList.add("you");
-    //         additionalUserRow.innerHTML = `
-    //         <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
-    //         <div class="table__row-item">
-    //             <span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>
-    //         </div>
-    //         ${user.winner === true  ?
-    //             `<div class="table__row-item" data-translate="prize">*****</div>` :
-    //             `<div class="table__row-item" data-translate="noWinners">*****</div>`
-    //         }
-    //
-    //         ${user.bonusFirstGoal === true  ?
-    //             `<div class="table__row-item" data-translate="ss500">*****</div>` :
-    //             `<div class="table__row-item" data-translate="noWinners">*****</div>`
-    //         }
-    //     `;
-    //         const youBlock = document.createElement('div');
-    //         youBlock.classList.add('table__row-you');
-    //         youBlock.setAttribute('data-translate', 'tableYou');
-    //         // youBlock.textContent = "You";
-    //         additionalUserRow.insertBefore(youBlock, additionalUserRow.children[1]);
-    //     }
-    //
-    //     table.append(additionalUserRow);
-    // }
-    // function maskUserId(userId) {
-    //     return "**" + userId.toString().slice(2);
-    // }
+    function renderUsers() {
+        request(`/users/${currentTabTable}`)
+            .then(data => {
+
+                let users = data.users
+
+                // console.log(users)
+                const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
+                const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
+
+                if(users.length >= 50){
+                    showTopForecast = true
+                }
+                if(users.length < 50){
+                    showTopForecast = false
+                }
+
+                if (isScoreTabActive && showTopForecast) topForecast.classList.remove("hide")
+                if (isGoalTabActive) topForecast.classList.add("hide")
+
+
+                // console.log(typeof userId)
+
+                populateUsersTable(users, userId, currentTabTable)
+
+                // console.log(users)
+            });
+
+    }
+    function populateUsersTable(users, currentUserId, matchNumber) {
+        resultsTable.innerHTML = '';
+        resultsTableOther.innerHTML = '';
+
+        if (!users || !users.length) return;
+
+        // // Фільтруємо користувачів, які зробили ставку на вказаний матч
+        // const users = users.filter(user =>
+        //     user.bets.some(bet => bet.matchNumber === matchNumber)
+        // );
+
+        // if (!users.length) return;
+
+        // Знаходимо поточного користувача
+        const currentUser = users.find(user => user.userid === currentUserId);
+
+        // Виводимо всіх інших користувачів у resultsTable
+        users.forEach(user => {
+            if (user.userid !== currentUserId) {
+                displayUser(user, false, resultsTable, users, matchNumber);
+            }
+        });
+
+        // Виводимо поточного користувача в resultsTableOther
+        if (currentUser) {
+            displayUser(currentUser, true, resultsTableOther, users, matchNumber);
+        }
+    }
+    function displayUser(user, isCurrentUser, table, allUsers, matchNumber) {
+        let matchDate;
+
+        if (matchNumber === 1) {
+            matchDate = FIRST_MATCH_DATE;
+        }
+
+        const additionalUserRow = document.createElement('div');
+        additionalUserRow.classList.add('table__row');
+
+        additionalUserRow.innerHTML = `
+        <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
+        <div class="table__row-item">
+            ${currentDate >= matchDate ?
+            `<span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>` :
+            `<span>**</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>**</span>`
+        }
+        </div>
+
+        ${user.winner === true  ?
+            `<div class="table__row-item" data-translate="prize">*****</div>` :
+            `<div class="table__row-item" data-translate="noWinners">*****</div>`
+        }
+
+        ${user.bonusFirstGoal === true  ?
+            `<div class="table__row-item" data-translate="ss500">*****</div>` :
+            `<div class="table__row-item" data-translate="noWinners">*****</div>`
+        }
+    `;
+
+        if (isCurrentUser) {
+            additionalUserRow.classList.add("you");
+            additionalUserRow.innerHTML = `
+            <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
+            <div class="table__row-item">
+                <span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>
+            </div>
+            ${user.winner === true  ?
+                `<div class="table__row-item" data-translate="prize">*****</div>` :
+                `<div class="table__row-item" data-translate="noWinners">*****</div>`
+            }
+
+            ${user.bonusFirstGoal === true  ?
+                `<div class="table__row-item" data-translate="ss500">*****</div>` :
+                `<div class="table__row-item" data-translate="noWinners">*****</div>`
+            }
+        `;
+            const youBlock = document.createElement('div');
+            youBlock.classList.add('table__row-you');
+            youBlock.setAttribute('data-translate', 'tableYou');
+            // youBlock.textContent = "You";
+            additionalUserRow.insertBefore(youBlock, additionalUserRow.children[1]);
+        }
+
+        table.append(additionalUserRow);
+    }
+    function maskUserId(userId) {
+        return "**" + userId.toString().slice(2);
+    }
 
     // 3D anim
     const cards = document.querySelectorAll(".team, .animCard, .animRight"); // Добавляем .animRight
@@ -698,17 +698,17 @@
     });
 
     //table tabs
-    document.querySelectorAll('.table__tabs-date').forEach(tab => {
-        tab.addEventListener('click', function() {
-            if (this.classList.contains('active')) {
-                return;
-            }
-            document.querySelectorAll('.table__tabs-date').forEach(tab => tab.classList.remove('active'));
-            this.classList.add('active');
-            currentTabTable = Number(document.querySelector(".table__tabs-date.active").getAttribute("data-match-number"))
-            renderUsers();
-        });
-    });
+    // document.querySelectorAll('.table__tabs-date').forEach(tab => {
+    //     tab.addEventListener('click', function() {
+    //         if (this.classList.contains('active')) {
+    //             return;
+    //         }
+    //         document.querySelectorAll('.table__tabs-date').forEach(tab => tab.classList.remove('active'));
+    //         this.classList.add('active');
+    //         currentTabTable = Number(document.querySelector(".table__tabs-date.active").getAttribute("data-match-number"))
+    //         renderUsers();
+    //     });
+    // });
 
 
     //popups
@@ -838,10 +838,27 @@
     });
 
     document.querySelector(".btn-after")?.addEventListener("click", () => {
-        document.querySelector(".goal-1")?.classList.toggle("_lock")
-        document.querySelector(".score-1")?.classList.toggle("_lock")
+        const TEST_MATCH_DATE = new Date('2022-03-20T21:15:00')
+        lockMatchContainer(TEST_MATCH_DATE, 1);
         console.log("lock table")
     });
 
+    userId = sessionStorage.getItem("userId") ?? null
+    
+    updateTopForecasts = function () {
+        console.log('updateTopForecasts вимкнено для тесту');
+    }
+
+    renderUsers = function () {
+        console.log('renderUsers вимкнено для тесту');
+    }
+
+    populateUsersTable = function () {
+        console.log('populateUsersTable вимкнено для тесту');
+    }
+
+    displayUser = function () {
+        console.log('displayUser вимкнено для тесту');
+    }
 })()
 
