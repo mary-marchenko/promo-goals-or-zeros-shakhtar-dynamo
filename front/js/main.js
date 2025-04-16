@@ -648,8 +648,12 @@
         if (isScoreTabActive) {
             if(showTopForecast) topForecast.classList.remove("hide")
             document.querySelector('.predict__container.score-1').classList.add('active');
+            document.querySelector('.predict__tabs-txt-2').classList.add('hide');
+            document.querySelector('.predict__tabs-txt-1').classList.remove('hide');
         } else if (isGoalTabActive) {
             if(showTopForecast) topForecast.classList.add("hide")
+            document.querySelector('.predict__tabs-txt-1').classList.add('hide');
+            document.querySelector('.predict__tabs-txt-2').classList.remove('hide');
             document.querySelector('.predict__container.goal-1').classList.add('active');
         }
     }
