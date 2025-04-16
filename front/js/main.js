@@ -330,6 +330,7 @@
         return fetch(`${apiURL}/new-translates/${locale}`).then(res => res.json())
             .then(json => {
                 i18nData = json;
+                console.log(i18nData);
                 translate();
                 var mutationObserver = new MutationObserver(function (mutations) {
                     translate();
