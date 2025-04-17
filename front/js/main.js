@@ -1,10 +1,7 @@
+
 (function () {
-
-    let initJs =  false;
-
-    if (initJs) {
-        return;
-    }
+    if (window.promoInit) {return}
+    window.promoInit = true;
 
     const apiURL = 'https://fav-prom.com/api_football_shakhtar',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
@@ -242,6 +239,7 @@
     }
 
     let checkUserAuth = () => {
+        console.log(userId)
         if (userId) {
             youAreInBtns.forEach(item => item.classList.remove('hide'));
             unauthMsgs.forEach(item => item.classList.add('hide'));
@@ -365,13 +363,16 @@
     }
 
     function init() {
+        document.removeEventListener('click', handleTeamControlClick);
+        placeBetBtn.removeEventListener('click', handlePlaceBetClick);
         initClickTracking()
-        if(!currentBet){
-            currentBet = new Bet(userId, matchNumber)
-        }
         if (window.store) {
             var state = window.store.getState();
             userId = state.auth.isAuthorized && state.auth.id || '';
+            console.log(userId)
+            if(!currentBet){
+                currentBet = new Bet(userId, matchNumber)
+            }
             // currentBet = new Bet(userId, matchNumber)
             InitPage();
         } else {
@@ -389,6 +390,7 @@
             }, 200);
 
         }
+        console.log(userId)
         InitPage()
         placeBetBtn.addEventListener('click', (e) => {
             console.log("click")
@@ -398,6 +400,8 @@
             }
             placeBet(currentBet);
         });
+        document.addEventListener('click', handleTeamControlClick);
+        placeBetBtn.addEventListener('click', handlePlaceBetClick);
     }
     function updateScore(matchNumber, team1Goals, team2Goals) {
         if (currentBet && currentBet.matchNumber === matchNumber) {
@@ -451,12 +455,12 @@
                 // console.log(users)
                 const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
                 const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
-                
 
-                if(users.length >= 50){
+
+                if(users.length >= 3){
                     showTopForecast = true
                 }
-                if(users.length < 50){
+                if(users.length < 3){
                     showTopForecast = false
                 }
 
@@ -511,42 +515,28 @@
         additionalUserRow.classList.add('table__row');
 
         additionalUserRow.innerHTML = `
-        <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
-        <div class="table__row-item">
-            ${currentDate >= matchDate ?
+    <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
+    <div class="table__row-item">
+        ${currentDate >= matchDate ?
             `<span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>` :
             `<span>**</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>**</span>`
         }
-        </div>
-
-        ${user.winner === true  ?
-            `<div class="table__row-item" data-translate="prize">*****</div>` :
-            `<div class="table__row-item" data-translate="noWinners">*****</div>`
-        }
-
-        ${user.bonusFirstGoal === true  ?
-            `<div class="table__row-item" data-translate="ss500">*****</div>` :
-            `<div class="table__row-item" data-translate="noWinners">*****</div>`
-        }
-    `;
+    </div>
+    
+            <div class="table__row-item" >*****</div>
+            <div class="table__row-item" >*****</div>
+`;
 
         if (isCurrentUser) {
             additionalUserRow.classList.add("you");
             additionalUserRow.innerHTML = `
-            <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
-            <div class="table__row-item">
-                <span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>
-            </div>
-            ${user.winner === true  ?
-                `<div class="table__row-item" data-translate="prize">*****</div>` :
-                `<div class="table__row-item" data-translate="noWinners">*****</div>`
-            }
-
-            ${user.bonusFirstGoal === true  ?
-                `<div class="table__row-item" data-translate="ss500">*****</div>` :
-                `<div class="table__row-item" data-translate="noWinners">*****</div>`
-            }
-        `;
+        <div class="table__row-item">${isCurrentUser ? user.userid : maskUserId(user.userid)}</div>
+        <div class="table__row-item">
+            <span>${user.team1 !== undefined && user.team1 !== null ? user.team1 : "-"}</span><img src="https://fav-prom.com/html/goals-or-zeroes/img/vs.png" alt="vs"><span>${user.team2 !== undefined && user.team2 !== null ? user.team2 : "-"}</span>
+        </div>
+        <div class="table__row-item" >*****</div>
+        <div class="table__row-item" >*****</div>
+    `;
             const youBlock = document.createElement('div');
             youBlock.classList.add('table__row-you');
             youBlock.setAttribute('data-translate', 'tableYou');
@@ -648,12 +638,12 @@
 
 
         if (isScoreTabActive) {
-            topForecast.classList.remove("hide")
+            if (showTopForecast) topForecast.classList.remove("hide")
             document.querySelector('.predict__container.score-1').classList.add('active');
             document.querySelector('.predict__tabs-txt-2').classList.add('hide');
             document.querySelector('.predict__tabs-txt-1').classList.remove('hide');
         } else if (isGoalTabActive) {
-            topForecast.classList.add("hide")
+            if (showTopForecast) topForecast.classList.add("hide")
             document.querySelector('.predict__tabs-txt-1').classList.add('hide');
             document.querySelector('.predict__tabs-txt-2').classList.remove('hide');
             document.querySelector('.predict__container.goal-1').classList.add('active');
@@ -847,11 +837,10 @@
         .then(init)
 
 
-    document.addEventListener('click', (e) => {
+    // Нова функція для обробки кліків на кнопки +/-
+    function handleTeamControlClick(e) {
         const btn = e.target.closest('.predict__team-increase, .predict__team-decrease');
         if (!btn) return;
-
-        console.log(btn)
 
         const teamControl = btn.closest('.predict__team-control');
         const teamNumber = teamControl.querySelector('.predict__team-number');
@@ -865,9 +854,19 @@
         }
         teamNumber.textContent = `${value}`;
         scoreInit(btn);
-    });
+    }
 
-
+    // Нова функція для обробки кліку на кнопку ставки
+    function handlePlaceBetClick(e) {
+        console.log("click");
+        e.preventDefault();
+        if(currentBet === undefined) {
+            currentBet = new Bet(userId, matchNumber);
+        }
+        placeBet(currentBet);
+    }
 
 })()
+
+
 
