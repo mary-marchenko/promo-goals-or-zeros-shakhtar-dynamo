@@ -1,4 +1,11 @@
 (function () {
+
+    let initJs =  false;
+
+    if (initJs) {
+        return;
+    }
+
     const apiURL = 'https://fav-prom.com/api_football_shakhtar',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
         youAreInBtns = document.querySelectorAll('.took-part'),
@@ -14,6 +21,7 @@
     let matchNumber = 1
     let showTopForecast = false
 
+    // const FIRST_MATCH_DATE = new Date('2025-04-27T17:30:00') // дата матчу - 30хв справжня дата
     const FIRST_MATCH_DATE = new Date('2025-04-27T17:30:00') // дата матчу - 30хв
     const currentDate = new Date()
 
@@ -132,15 +140,6 @@
             body: JSON.stringify(reportData)
         }).catch(console.warn);
     }
-
-    window.addEventListener('error', function (e) {
-        reportError(e.error || e);
-        return false;
-    });
-
-    window.addEventListener('unhandledrejection', function (e) {
-        reportError(e.reason || e);
-    });
 
     const getLastBet = (bets, matchNumber) =>{
         if(!bets) return false
@@ -330,7 +329,6 @@
         return fetch(`${apiURL}/new-translates/${locale}`).then(res => res.json())
             .then(json => {
                 i18nData = json;
-                console.log(i18nData);
                 translate();
                 var mutationObserver = new MutationObserver(function (mutations) {
                     translate();
@@ -367,6 +365,7 @@
     }
 
     function init() {
+        initClickTracking()
         if(!currentBet){
             currentBet = new Bet(userId, matchNumber)
         }
@@ -376,7 +375,6 @@
             // currentBet = new Bet(userId, matchNumber)
             InitPage();
         } else {
-            InitPage();
             let c = 0;
             var i = setInterval(function () {
                 if (c < 50) {
@@ -453,6 +451,7 @@
                 // console.log(users)
                 const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
                 const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
+                
 
                 if(users.length >= 50){
                     showTopForecast = true
@@ -591,7 +590,7 @@
         let currentMatch = 1
 
         const clickedTab = event.target.closest(".predict__tabs-date") || event.target.closest(".predict__tabs-goal") || event.target.closest(".predict__tabs-score");
-        // console.log(clickedTab)
+        console.log(clickedTab)
         const tabPair = clickedTab.closest('.predict__tabs-global') || clickedTab.closest('.predict__tabs-dates');
 
         // console.log(clickedTab)
@@ -646,13 +645,15 @@
         refreshBetInfo(userId)
         const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
         const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
+
+
         if (isScoreTabActive) {
-            if(showTopForecast) topForecast.classList.remove("hide")
+            topForecast.classList.remove("hide")
             document.querySelector('.predict__container.score-1').classList.add('active');
             document.querySelector('.predict__tabs-txt-2').classList.add('hide');
             document.querySelector('.predict__tabs-txt-1').classList.remove('hide');
         } else if (isGoalTabActive) {
-            if(showTopForecast) topForecast.classList.add("hide")
+            topForecast.classList.add("hide")
             document.querySelector('.predict__tabs-txt-1').classList.add('hide');
             document.querySelector('.predict__tabs-txt-2').classList.remove('hide');
             document.querySelector('.predict__container.goal-1').classList.add('active');
@@ -680,24 +681,6 @@
 
         updateScore(matchNumber, team1Goals, team2Goals);
     }
-
-    document.querySelectorAll('.predict__team-increase, .predict__team-decrease').forEach(btn => {
-        btn.addEventListener("click", () =>{
-            const teamControl = btn.closest('.predict__team-control');
-            const teamNumber = teamControl.querySelector('.predict__team-number')
-            const matchContainer = btn.closest('.predict__container');
-
-            let value = parseInt(teamNumber.textContent);
-            if (btn.classList.contains('predict__team-increase')) {
-                value += 1;
-            } else if (value > 0) {
-                value -= 1;
-            }
-            teamNumber.textContent = `${value}`;
-            scoreInit(btn)
-            // console.log(bet)
-        })
-    });
 
     //table tabs
     // document.querySelectorAll('.table__tabs-date').forEach(tab => {
@@ -781,88 +764,110 @@
             });
         });
     });
+
+    let clickStats = JSON.parse(sessionStorage.getItem('clickStats')) || [];
+
+    function clickTracking(event) {
+        const clickName = event.currentTarget.getAttribute('data-click-name');
+        const clickDrop = event.currentTarget.getAttribute('data-click-drop');
+
+        if (!clickName) return;
+
+        if (clickDrop) {
+            const isAuth = !!userId;
+
+            const existingItem = clickStats.find(
+                item => item.clickedItem === clickName && item.auth === isAuth
+            );
+
+            if (existingItem) {
+                existingItem.counter += 1;
+            } else {
+                clickStats.push({
+                    clickedItem: clickName,
+                    counter: 1,
+                    auth: isAuth
+                });
+            }
+        } else {
+            const existingItem = clickStats.find(item => item.clickedItem === clickName);
+            if (existingItem) {
+                existingItem.counter += 1;
+            } else {
+                clickStats.push({
+                    clickedItem: clickName,
+                    counter: 1
+                });
+            }
+        }
+
+        sessionStorage.setItem('clickStats', JSON.stringify(clickStats));
+        console.log(clickStats);
+    }
+
+    function initClickTracking() {
+        const clickableElements = document.querySelectorAll('[data-click-name]');
+        clickableElements.forEach(el => {
+            el.addEventListener('click', clickTracking);
+        });
+    }
+
+    function sendClickStats() {
+        const storedStats = JSON.parse(sessionStorage.getItem('clickStats'));
+
+        if (!storedStats || storedStats.length === 0) return;
+
+
+        // console.log(JSON.stringify( storedStats))
+
+        fetch(`${apiURL}/click-stat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(storedStats)
+        })
+            .then(response => {
+                if (response.ok) {
+                    clickStats = [];
+                    sessionStorage.removeItem('clickStats');
+                    // console.log('Кліки успішно відправлено й очищено');
+                } else {
+                    console.error('Помилка при відправці кліків');
+                }
+            })
+            .catch(error => {
+                console.error('Помилка зʼєднання:', error);
+            });
+    }
+
+    setInterval(sendClickStats, 10000);
+
     loadTranslations()
         .then(init)
 
-    // TEST
-    document.querySelector('.dark-btn').addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-    });
 
-    const lngBtn = document.querySelector(".lng-btn")
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.predict__team-increase, .predict__team-decrease');
+        if (!btn) return;
 
-    lngBtn.addEventListener("click", () => {
-        if (sessionStorage.getItem("locale")) {
-            sessionStorage.removeItem("locale");
-        } else {
-            sessionStorage.setItem("locale", "en");
+        console.log(btn)
+
+        const teamControl = btn.closest('.predict__team-control');
+        const teamNumber = teamControl.querySelector('.predict__team-number');
+        const matchContainer = btn.closest('.predict__container');
+
+        let value = parseInt(teamNumber.textContent);
+        if (btn.classList.contains('predict__team-increase')) {
+            value += 1;
+        } else if (value > 0) {
+            value -= 1;
         }
-        window.location.reload();
+        teamNumber.textContent = `${value}`;
+        scoreInit(btn);
     });
 
-    const authBtn = document.querySelector(".auth-btn")
 
-    authBtn.addEventListener("click", () =>{
-        if(userId){
-            sessionStorage.removeItem("userId")
-        }else{
-            sessionStorage.setItem("userId", "18908465")
-        }
-        window.location.reload()
-    });
 
-    document.querySelectorAll('.btn-lastPred').forEach(button => {
-        button.addEventListener('click', function() {
-            document.querySelectorAll('.predict__last').forEach(element => {
-                element.classList.toggle('hide');
-            });
-        });
-    });
-
-    setPopups(document.querySelectorAll('.btn-thenks'), '_confirmPopup');
-
-    document.querySelectorAll('.btn-predict').forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelectorAll('.unconfirmed').forEach(unconfirmed => {
-                unconfirmed.classList.toggle('active');
-            });
-
-            document.querySelectorAll('.confirmed').forEach(confirmed => {
-                confirmed.classList.toggle('active');
-            });
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelector(".menu-btn")?.addEventListener("click", () => {
-            document.querySelector(".menu-test")?.classList.toggle("hide");
-        });
-    });
-
-    document.querySelector(".btn-after")?.addEventListener("click", () => {
-        const FIRST_MATCH_DATE = new Date('2022-03-20T21:15:00')
-        lockMatchContainer(FIRST_MATCH_DATE, 1);
-        placeBetBtn.classList.add("_lock")
-        console.log("lock table")
-    });
-
-    userId = sessionStorage.getItem("userId") ?? null
-    
-    updateTopForecasts = function () {
-        console.log('updateTopForecasts вимкнено для тесту');
-    }
-
-    renderUsers = function () {
-        console.log('renderUsers вимкнено для тесту');
-    }
-
-    populateUsersTable = function () {
-        console.log('populateUsersTable вимкнено для тесту');
-    }
-
-    displayUser = function () {
-        console.log('displayUser вимкнено для тесту');
-    }
-    showTopForecast = true
 })()
 
