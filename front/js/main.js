@@ -1,7 +1,20 @@
 
 (function () {
-    if (window.promoInit) {return}
+    console.log(window.firstListener)
+    if (window.promoInit) {
+        window.promoInit = false
+        return;
+    }
     window.promoInit = true;
+
+
+    window.addEventListener('beforeunload', function() {
+        document.removeEventListener('click', handleTeamControlClick);
+        placeBetBtn.removeEventListener('click', handlePlaceBetClick);
+        removeClickTracking()
+        placeBetBtn.removeEventListener('click', PlaceBetButtonClick);
+    });
+
 
     const apiURL = 'https://fav-prom.com/api_football_shakhtar',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
@@ -361,10 +374,18 @@
         }
         element.classList.add(locale);
     }
+    function PlaceBetButtonClick(e) {
+        console.log("click");
+        e.preventDefault();
+        if (currentBet === undefined) {
+            currentBet = new Bet(userId, matchNumber);
+        }
+        placeBet(currentBet);
+    }
 
     function init() {
-        document.removeEventListener('click', handleTeamControlClick);
-        placeBetBtn.removeEventListener('click', handlePlaceBetClick);
+
+
         initClickTracking()
         if (window.store) {
             var state = window.store.getState();
@@ -385,23 +406,37 @@
                         clearInterval(i);
                     }
                 } else {
+                    InitPage();
                     clearInterval(i);
                 }
             }, 200);
 
         }
-        console.log(userId)
         InitPage()
-        placeBetBtn.addEventListener('click', (e) => {
-            console.log("click")
-            e.preventDefault();
-            if(currentBet === undefined) {
-                currentBet = new Bet(userId, matchNumber)
+        placeBetBtn.addEventListener('click', PlaceBetButtonClick);
+        // document.addEventListener('click', handleTeamControlClick);
+
+        document.querySelectorAll('.predict__team').forEach((teamEl, index) => {
+            if (!teamEl.querySelector('.predict__team-control')) {
+                const teamNumber = index + 1;
+
+                const controlHTML = `
+            <div class="predict__team-control" data-team="team${teamNumber}">
+                <div class="predict__team-decrease team${teamNumber}-minus" role="button"></div>
+                <div class="predict__team-number">0</div>
+                <div class="predict__team-increase team${teamNumber}-plus" role="button"></div>
+            </div>
+        `;
+
+                teamEl.insertAdjacentHTML('beforeend', controlHTML);
             }
-            placeBet(currentBet);
         });
-        document.addEventListener('click', handleTeamControlClick);
-        placeBetBtn.addEventListener('click', handlePlaceBetClick);
+
+        document.querySelectorAll('.predict__team-increase, .predict__team-decrease').forEach(btn => {
+            btn.addEventListener('click', handleTeamControlClick);
+        });
+
+
     }
     function updateScore(matchNumber, team1Goals, team2Goals) {
         if (currentBet && currentBet.matchNumber === matchNumber) {
@@ -802,6 +837,13 @@
         });
     }
 
+    function removeClickTracking() {
+        const clickableElements = document.querySelectorAll('[data-click-name]');
+        clickableElements.forEach(el => {
+            el.removeEventListener('click', clickTracking);
+        });
+    }
+
     function sendClickStats() {
         const storedStats = JSON.parse(sessionStorage.getItem('clickStats'));
 
@@ -865,6 +907,8 @@
         }
         placeBet(currentBet);
     }
+
+
 
 })()
 
