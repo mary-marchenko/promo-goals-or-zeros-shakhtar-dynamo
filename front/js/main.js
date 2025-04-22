@@ -1,20 +1,12 @@
 
 (function () {
-    console.log(window.firstListener)
-    if (window.promoInit) {
-        window.promoInit = false
-        return;
-    }
-    window.promoInit = true;
+    // if (window.promoInit) {
+    //     window.promoInit = false
+    //     return;
+    // }
+    // window.promoInit = true;
 
-
-    window.addEventListener('beforeunload', function() {
-        document.removeEventListener('click', handleTeamControlClick);
-        placeBetBtn.removeEventListener('click', handlePlaceBetClick);
-        removeClickTracking()
-        placeBetBtn.removeEventListener('click', PlaceBetButtonClick);
-    });
-
+    window.counterClick = 1
 
     const apiURL = 'https://fav-prom.com/api_football_shakhtar',
         unauthMsgs = document.querySelectorAll('.unauth-msg'),
@@ -87,9 +79,8 @@
     let translateState = true
     let debug = false
 
-    let locale = sessionStorage.getItem("locale") ?? "uk"
-    // let locale = "uk"
-    // let locale = "en"
+    let locale = "en"
+
 
 
     const ukLeng = document.querySelector('#ukLeng');
@@ -252,7 +243,6 @@
     }
 
     let checkUserAuth = () => {
-        console.log(userId)
         if (userId) {
             youAreInBtns.forEach(item => item.classList.remove('hide'));
             unauthMsgs.forEach(item => item.classList.add('hide'));
@@ -269,8 +259,6 @@
         if (!userId) {
             return;
         }
-        console.log(bet)
-
         document.querySelector(".predict__container.active")
             .querySelectorAll('.predict__team-increase, .predict__team-decrease')
             .forEach(btn => {
@@ -323,7 +311,6 @@
 
         sessionStorage.setItem("currentBet", JSON.stringify(req))
 
-        console.log(sessionStorage.getItem("currentBet"))
 
         request('/bet', {
             method: 'POST',
@@ -360,7 +347,7 @@
                 elem.removeAttribute('data-translate');
             })
         }else{
-            console.log("translation work!")
+            console.log("translation works!")
         }
         refreshLocalizedClass(mainPage);
     }
@@ -375,7 +362,7 @@
         element.classList.add(locale);
     }
     function PlaceBetButtonClick(e) {
-        console.log("click");
+        
         e.preventDefault();
         if (currentBet === undefined) {
             currentBet = new Bet(userId, matchNumber);
@@ -384,18 +371,14 @@
     }
 
     function init() {
-
-
+        InitPage()
         initClickTracking()
         if (window.store) {
             var state = window.store.getState();
             userId = state.auth.isAuthorized && state.auth.id || '';
-            console.log(userId)
             if(!currentBet){
                 currentBet = new Bet(userId, matchNumber)
             }
-            // currentBet = new Bet(userId, matchNumber)
-            InitPage();
         } else {
             let c = 0;
             var i = setInterval(function () {
@@ -412,14 +395,10 @@
             }, 200);
 
         }
-        InitPage()
         placeBetBtn.addEventListener('click', PlaceBetButtonClick);
-        // document.addEventListener('click', handleTeamControlClick);
-
-        document.querySelectorAll('.predict__team').forEach((teamEl, index) => {
+        document.querySelectorAll('.scoreCounter').forEach((teamEl, index) => {
             if (!teamEl.querySelector('.predict__team-control')) {
                 const teamNumber = index + 1;
-
                 const controlHTML = `
             <div class="predict__team-control" data-team="team${teamNumber}">
                 <div class="predict__team-decrease team${teamNumber}-minus" role="button"></div>
@@ -436,7 +415,6 @@
             btn.addEventListener('click', handleTeamControlClick);
         });
 
-
     }
     function updateScore(matchNumber, team1Goals, team2Goals) {
         if (currentBet && currentBet.matchNumber === matchNumber) {
@@ -445,18 +423,15 @@
             currentBet = new Bet(userId, matchNumber, team1Goals, team2Goals);
             currentBet.updateGoals(team1Goals, team2Goals);
         }
-        // console.log(currentBet);
     }
     function updateFirstGoal(matchNumber, firstGoal) {
         if (currentBet && currentBet.matchNumber === matchNumber) {
             currentBet.updateFirstGoal(firstGoal);
         }
 
-        // console.log(currentBet);
     }
     function updateTopForecasts(matchNumber) {
         request(`/users/${matchNumber}`).then(data => {
-            // console.log(data.topForecasts); // Перевірка отриманих даних
 
             const forecastsContainer = document.querySelector('.predict__forecasts');
             forecastsContainer.innerHTML = '';
@@ -487,15 +462,14 @@
 
                 let users = data.users
 
-                // console.log(users)
                 const isScoreTabActive = document.querySelector('.predict__tabs-score.active');
                 const isGoalTabActive = document.querySelector('.predict__tabs-goal.active');
 
 
-                if(users.length >= 3){
+                if(users.length >= 50){
                     showTopForecast = true
                 }
-                if(users.length < 3){
+                if(users.length < 50){
                     showTopForecast = false
                 }
 
@@ -503,11 +477,9 @@
                 if (isGoalTabActive) topForecast.classList.add("hide")
 
 
-                // console.log(typeof userId)
 
                 populateUsersTable(users, userId, currentTabTable)
 
-                // console.log(users)
             });
 
     }
@@ -615,10 +587,8 @@
         let currentMatch = 1
 
         const clickedTab = event.target.closest(".predict__tabs-date") || event.target.closest(".predict__tabs-goal") || event.target.closest(".predict__tabs-score");
-        console.log(clickedTab)
         const tabPair = clickedTab.closest('.predict__tabs-global') || clickedTab.closest('.predict__tabs-dates');
 
-        // console.log(clickedTab)
 
         if(currentMatch === 1){
             matchDate = FIRST_MATCH_DATE
@@ -783,7 +753,6 @@
             radio.addEventListener('change', function() {
                 radioInputs.forEach(item => item.classList.remove('_active'));
                 this.classList.add('_active');
-                // console.log(this.querySelector("input").value)
 
                 updateFirstGoal(matchNumber, this.querySelector("input").value)
             });
@@ -827,7 +796,6 @@
         }
 
         sessionStorage.setItem('clickStats', JSON.stringify(clickStats));
-        console.log(clickStats);
     }
 
     function initClickTracking() {
@@ -883,29 +851,31 @@
     function handleTeamControlClick(e) {
         const btn = e.target.closest('.predict__team-increase, .predict__team-decrease');
         if (!btn) return;
+        if(window.counterClick > 1){
+            return
+        }else{
+            const teamControl = btn.closest('.predict__team-control');
+            const teamNumber = teamControl.querySelector('.predict__team-number');
+            const matchContainer = btn.closest('.predict__container');
 
-        const teamControl = btn.closest('.predict__team-control');
-        const teamNumber = teamControl.querySelector('.predict__team-number');
-        const matchContainer = btn.closest('.predict__container');
-
-        let value = parseInt(teamNumber.textContent);
-        if (btn.classList.contains('predict__team-increase')) {
-            value += 1;
-        } else if (value > 0) {
-            value -= 1;
+            let value = parseInt(teamNumber.textContent);
+            if (btn.classList.contains('predict__team-increase')) {
+                value += 1;
+            } else if (value > 0) {
+                value -= 1;
+            }
+            teamNumber.textContent = `${value}`;
+            scoreInit(btn);
+            window.counterClick += 1
+            btn.style.pointerEvents = 'none'
+            setTimeout(() =>{
+                window.counterClick = 1
+                btn.style.pointerEvents = 'initial'
+            }, 200)
         }
-        teamNumber.textContent = `${value}`;
-        scoreInit(btn);
-    }
 
-    // Нова функція для обробки кліку на кнопку ставки
-    function handlePlaceBetClick(e) {
-        console.log("click");
-        e.preventDefault();
-        if(currentBet === undefined) {
-            currentBet = new Bet(userId, matchNumber);
-        }
-        placeBet(currentBet);
+
+
     }
 
 
